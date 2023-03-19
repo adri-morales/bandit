@@ -1,16 +1,17 @@
 from environment import MultiArmedBandit
 from agent import BanditAgent
 import pandas as pd
+from tqdm import tqdm
 
-n_episodes = 10
+n_episodes = 1000
 n_actions = 10
-max_steps = 50
+max_steps = 1000
 
 env = MultiArmedBandit(n_actions)
 
 history = []
 
-for episode in range(n_episodes):
+for episode in tqdm(range(n_episodes)):
     obs, info = env.reset()
     agent = BanditAgent(n_actions, 0.05)
     
