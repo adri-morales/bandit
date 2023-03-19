@@ -9,3 +9,11 @@ This repository is intended to be a personal project to build a portfolio on rei
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## TODO
+* Implement non stationary environment
+* Automatize workflow with Make
+* Include key parameters in history path names
+* Implement gradient bandits agent
+* compare methods exploring optimal parameter values (alpha, c, Qi)
+* Implement exercide 2.4 from Sutton's book
