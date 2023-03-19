@@ -7,7 +7,7 @@ import ast
 
 parser = argparse.ArgumentParser(description='Run a reinforcement learning agent.')
 # Agent options
-parser.add_argument('-a', '--agent', type=str, choices=['greedy', 'epsilon_greedy', 'ucb', 'greedy_optimistic'], required=True,
+parser.add_argument('-a', '--agent', type=str, choices=['greedy', 'epsilon_greedy', 'ucb', 'optimistic_greedy'], required=True,
                     help='the agent to use for training')
 
 # Agent parameter options
@@ -32,8 +32,8 @@ max_steps = 1000
 
 agent_dict = {'greedy': agents.BanditAgent, 
               'epsilon_greedy': agents.EGreedyBanditAgent,
-              'ucb': None,
-              'greedy_optimistic': None}
+              'ucb': agents.UCBBanditAgent,
+              'optimistic_greedy': agents.OptimisticGreedyBanditAgent}
 
 agent_class = agent_dict[args.agent]
 

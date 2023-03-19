@@ -18,7 +18,7 @@ class BanditAgent:
             lr (float): The learning rate used to update the policy.
         """
         self.n_actions = n_actions
-        self.policy = np.random.normal(0, 1, n_actions)
+        self.policy = np.zeros(n_actions)
         self.lr = lr
 
     def get_action(self, obs: int) -> int:
@@ -77,5 +77,54 @@ class EGreedyBanditAgent(BanditAgent):
             action = np.random.randint(0, self.n_actions)
         else:
             action = np.argmax(self.policy)
+            
+        return action
+    
+class OptimisticGreedyBanditAgent(BanditAgent):
+    
+    def __init__(self, n_actions: int, lr: float, qi: float):
+        """
+        Initializes the optimistic greedy bandit agent with a policy, learning rate, and initial q estimates.
+
+        Args:
+            n_actions (int): The number of actions the agent can take.
+            lr (float): The learning rate used to update the policy.
+            qui (float): The initial Q values for each action.
+        """
+        super().__init__(n_actions, lr)
+        self.qi = qi
+        self.policy = np.ones(10) * qi
+        
+class UCBBanditAgent(BanditAgent):
+    
+    def __init__(self, n_actions: int, lr: float, c: float):
+        super().__init__(n_actions, lr)
+        self.c = c
+        self.step_counter = 0
+        self.action_counter = np.zeros(self.n_actions)
+    
+    def get_action(self, obs: int) -> int:
+        """
+        Selects an action based on UCB criteria.
+
+        Args:
+            obs (int): The current observation.
+
+        Returns:
+            int: The index of selected action.
+        """
+        
+        ucb_list = []
+        for i, q in enumerate(self.policy):
+            
+            t = self.step_counter
+            na = self.action_counter[i] + 1e-6
+            
+            ucb = q + self.c * np.sqrt(np.log(t)/na)
+            ucb_list.append(ucb)
+            self.step_counter += 1
+            self.action_counter[i] += 1
+            
+        action = np.argmax(ucb_list)
             
         return action
