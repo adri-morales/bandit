@@ -1,4 +1,4 @@
-agent: 'ucb_greedy'
+agent: 'ucb'
 n_actions: 10
 lr: 0.1
 c: 2
