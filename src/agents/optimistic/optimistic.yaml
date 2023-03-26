@@ -1,0 +1,4 @@
+agent: 'optimistic_greedy'
+n_actions: 10
+lr: 0.1
+qi: 3
