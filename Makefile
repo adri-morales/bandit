@@ -1,30 +1,24 @@
 # Define variables
 DATA_DIR := data
 PROCESSED_DIR := $(DATA_DIR)/processed
-RESULTS_DIR := $(DATA_DIR)/results
+RESULTS_DIR := results
 
 PYTHON := python
 TRAIN_SCRIPT := src/train.py
 AGENT_DIR := src/agents
 
-N_ACTIONS := 10
-LR := 0.1
-EPSILON := 0.1
-QI := 3
-C := 2
-
 # Define targets and dependencies
-$(RESULTS_DIR)/greedy_history.csv: $(AGENT_DIR)/greedy.py $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
-	$(PYTHON) $(TRAIN_SCRIPT) -a greedy -p n_actions:$(N_ACTIONS) lr:$(LR)
+$(RESULTS_DIR)/greedy_history.csv: $(wildcard $(AGENT_DIR)/greedy/*) $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
+	$(PYTHON) $(TRAIN_SCRIPT) -c $(AGENT_DIR)/greedy/greedy.yaml
 
-$(RESULTS_DIR)/epsilon_greedy_history.csv: $(AGENT_DIR)/egreedy.py $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
-	$(PYTHON) $(TRAIN_SCRIPT) -a epsilon_greedy -p n_actions:$(N_ACTIONS) lr:$(LR) epsilon:$(EPSILON)
+$(RESULTS_DIR)/epsilon_greedy_history.csv: $(wildcard $(AGENT_DIR)/egreedy/*) $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
+	$(PYTHON) $(TRAIN_SCRIPT) -c $(AGENT_DIR)/egreedy/egreedy.yaml
 
-$(RESULTS_DIR)/optimistic_greedy_history.csv: $(AGENT_DIR)/optimistic.py $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
-	$(PYTHON) $(TRAIN_SCRIPT) -a optimistic_greedy -p n_actions:$(N_ACTIONS) lr:$(LR) qi:$(QI)
+$(RESULTS_DIR)/optimistic_greedy_history.csv: $(wildcard $(AGENT_DIR)/optimistic/*) $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
+	$(PYTHON) $(TRAIN_SCRIPT) -c $(AGENT_DIR)/optimistic/optimistic.yaml
 
-$(RESULTS_DIR)/ucb_history.csv: $(AGENT_DIR)/ucb.py $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
-	$(PYTHON) $(TRAIN_SCRIPT) -a ucb -p n_actions:$(N_ACTIONS) lr:$(LR) c:$(C)
+$(RESULTS_DIR)/ucb_history.csv: $(wildcard $(AGENT_DIR)/ucb/*) $(TRAIN_SCRIPT) | $(PROCESSED_DIR) $(RESULTS_DIR)
+	$(PYTHON) $(TRAIN_SCRIPT) -c $(AGENT_DIR)/ucb/ucb.yaml
 
 $(PROCESSED_DIR):
 	mkdir -p $@
