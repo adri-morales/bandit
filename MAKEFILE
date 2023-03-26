@@ -1,9 +1,0 @@
-# Define variables
-DATA_DIR=data
-ROCESSED_DIR=data/processed
-
-
-# Define phony targets
-.PHONY: all data preprocess train evaluate clean
-
-# Define targets and dependencies
