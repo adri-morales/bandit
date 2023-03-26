@@ -1,9 +1,15 @@
 from environment import MultiArmedBandit
-import agents
+import sys
 import pandas as pd
 from tqdm import tqdm
 import argparse
 import ast
+
+sys.path.append('src/agents')
+import greedy
+import egreedy
+import optimistic
+import ucb
 
 parser = argparse.ArgumentParser(description='Run a reinforcement learning agent.')
 # Agent options
@@ -30,10 +36,10 @@ n_episodes = 1000
 n_actions = 10
 max_steps = 1000
 
-agent_dict = {'greedy': agents.BanditAgent, 
-              'epsilon_greedy': agents.EGreedyBanditAgent,
-              'ucb': agents.UCBBanditAgent,
-              'optimistic_greedy': agents.OptimisticGreedyBanditAgent}
+agent_dict = {'greedy': greedy.BanditAgent, 
+              'epsilon_greedy': egreedy.EGreedyBanditAgent,
+              'ucb': ucb.UCBBanditAgent,
+              'optimistic_greedy': optimistic.OptimisticGreedyBanditAgent}
 
 agent_class = agent_dict[args.agent]
 
